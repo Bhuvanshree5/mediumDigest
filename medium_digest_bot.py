@@ -82,12 +82,15 @@ def send_medium_links_to_telegram():
         print("No Medium links found in the email.")
         return
     formatted_links = format_medium_links(medium_links)
+    telegram_articles = "Articles to Learn Today:"
     for link in formatted_links:
-        send_message = send_to_telegram(f"Check out this article: {link}")
-        if send_message.get('ok'):
-            print(f"Message sent to Telegram: {link}")
-        else:
-            print(f"Failed to send the message: {link}")
+        url =  "\n\n" + "☑️  " + link 
+        telegram_articles += url
+    send_message = send_to_telegram(telegram_articles)
+    if send_message.get('ok'):
+        print(f"Message sent to Telegram: {link}")
+    else:
+        print(f"Failed to send the message: {link}")
 def send_test_message():
     url = f'https://api.telegram.org/bot{TELEGRAM_BOT_API}/sendMessage'
     params = {
@@ -106,7 +109,6 @@ def get_chat_id():
 
 def main():
     print("Sending test message...")
-    send_test_message()
     print("Fetching and sending Medium links to Telegram...")
     send_medium_links_to_telegram()
 
